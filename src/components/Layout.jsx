@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { topicsData, CATEGORIES } from '../content/topicsData';
 import { BookOpenIcon, MenuIcon, XIcon, SearchIcon, ArrowLeftIcon, ArrowRightIcon } from './Icons';
@@ -38,6 +38,18 @@ export default function Layout({ children, headings = [] }) {
       document.body.style.overflow = '';
     };
   }, [isSidebarOpen]);
+
+  const scrollContainerRef = useRef(null);
+
+  // Scroll content container back to top smoothly when route changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [location.pathname]);
 
   // Find current topic metadata
   const currentIdx = topicsData.findIndex(t => t.path === location.pathname);
@@ -191,7 +203,7 @@ export default function Layout({ children, headings = [] }) {
         <main className="flex-1 min-w-0 flex">
           
           {/* Primary text content scroll area */}
-          <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 md:py-12 flex flex-col justify-between max-w-4xl mx-auto">
+          <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 md:px-8 py-8 md:py-12 flex flex-col justify-between max-w-4xl mx-auto">
             
             {/* Top info and header */}
             <article className="prose prose-invert max-w-none flex-1">
