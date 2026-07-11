@@ -41,13 +41,13 @@ export default function Layout({ children, headings = [] }) {
 
   const scrollContainerRef = useRef(null);
 
-  // Scroll content container back to top instantly when route changes
+  // Scroll content container back to top smoothly when route changes
   useEffect(() => {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTo(0, 0);
-    document.body.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.scrollTo({ top: 0, behavior: 'smooth' });
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo(0, 0);
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [location.pathname]);
 
