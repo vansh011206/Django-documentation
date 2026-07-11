@@ -27,6 +27,18 @@ export default function Layout({ children, headings = [] }) {
     }
   }, [location.pathname]);
 
+  // Prevent body scrolling on mobile when sidebar is open
+  useEffect(() => {
+    if (isSidebarOpen && window.innerWidth < 1024) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isSidebarOpen]);
+
   // Find current topic metadata
   const currentIdx = topicsData.findIndex(t => t.path === location.pathname);
   const currentTopic = currentIdx !== -1 ? topicsData[currentIdx] : null;
@@ -85,10 +97,9 @@ export default function Layout({ children, headings = [] }) {
 
         {/* Sidebar Panel */}
         <aside
-          className={`fixed lg:sticky top-0 bottom-0 left-0 w-72 bg-bgCard border-r border-slate-800 flex flex-col transition-transform duration-300 z-50 lg:z-10 ${
+          className={`fixed lg:sticky top-0 bottom-0 left-0 w-72 bg-bgCard border-r border-slate-800 flex flex-col transition-transform duration-300 z-50 lg:z-10 h-[100dvh] lg:h-screen ${
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
-          style={{ height: '100vh' }}
         >
           {/* Sidebar Header */}
           <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
