@@ -27,6 +27,8 @@ function ScrollToTop() {
   const { pathname } = window.location;
   React.useEffect(() => {
     window.scrollTo(0, 0);
+    document.documentElement.scrollTo(0, 0);
+    document.body.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }
