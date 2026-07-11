@@ -34,6 +34,16 @@ export default function Loader({ onFinished }) {
     }
   }, [progress, onFinished]);
 
+  // Prevent scrolling on html & body elements while loader screen is visible
+  useEffect(() => {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <div className={`fixed inset-0 bg-[#0b0f19] z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 ${fade ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
       
